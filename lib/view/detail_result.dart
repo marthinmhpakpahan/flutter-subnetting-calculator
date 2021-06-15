@@ -16,7 +16,7 @@ class _DetailResult extends State<DetailResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Subnetting Calculator")),
+        appBar: AppBar(title: Text("Subnetting Result")),
         body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(

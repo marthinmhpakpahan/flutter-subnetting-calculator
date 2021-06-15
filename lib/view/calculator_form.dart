@@ -299,7 +299,7 @@ class _CalculatorFormState extends State<CalculatorForm> {
       height: 60,
       child: Center(
           child: Text(this.ipClass,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue))),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black
