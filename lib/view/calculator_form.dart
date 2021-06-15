@@ -285,7 +285,7 @@ class _CalculatorFormState extends State<CalculatorForm> {
         // To check if every octet have valid length of number
         return false;
       }
-      if(int.parse(arrOctet[i]) > 255 || int.parse(arrOctet[i]) < 1) {
+      if(int.parse(arrOctet[i]) > 255 || int.parse(arrOctet[i]) < 0) {
         return false;
       }
     }
@@ -408,7 +408,7 @@ class _CalculatorFormState extends State<CalculatorForm> {
             } else {
               Navigator.of(context).push(new MaterialPageRoute(
                   builder: (context) =>
-                      DetailResult(ipAddress: ipAddress, subnet: subnet)));
+                      DetailResult(ipAddress: ipAddress, subnet: subnet, ipClass: this.ipClass)));
             }
           },
         ));

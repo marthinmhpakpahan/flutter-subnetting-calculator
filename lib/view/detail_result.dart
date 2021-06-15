@@ -4,8 +4,9 @@ import 'dart:math';
 class DetailResult extends StatefulWidget {
   String ipAddress = "";
   String subnet = "";
+  String ipClass = "";
 
-  DetailResult({required this.ipAddress, required this.subnet});
+  DetailResult({ required this.ipAddress, required this.subnet, required this.ipClass });
 
   @override
   _DetailResult createState() => _DetailResult();
@@ -53,10 +54,60 @@ class _DetailResult extends State<DetailResult> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
                         child: Row(children: [
+                          Text("IP Class : "),
+                          Text(widget.ipClass,
+                              style: TextStyle(fontWeight: FontWeight.bold))
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                        child: Row(children: [
                           Text("Network Subnet : "),
                           Text(
                               _getSubnetAddress(widget.ipAddress,
                                   widget.subnet.split("/")[0]),
+                              style: TextStyle(fontWeight: FontWeight.bold))
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                        child: Row(children: [
+                          Text("Broadcast Address : "),
+                          Text(
+                              _getListOfSubnets(
+                                widget.ipAddress,
+                                (widget.subnet.split("/"))[0],
+                                (widget.subnet.split("/"))[1])[2][0],
+                              style: TextStyle(fontWeight: FontWeight.bold))
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                        child: Row(children: [
+                          Text("Host Range : "),
+                          Text(
+                              _getListOfSubnets(
+                                widget.ipAddress,
+                                (widget.subnet.split("/"))[0],
+                                (widget.subnet.split("/"))[1])[1][0],
+                              style: TextStyle(fontWeight: FontWeight.bold))
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                        child: Row(children: [
+                          Text("Total Number of Host : "),
+                          Text(
+                              _getNumberOfHost((widget.subnet.split("/"))[0]).toString(),
+                              style: TextStyle(fontWeight: FontWeight.bold))
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                        child: Row(children: [
+                          Text("Total Usable Host : "),
+                          Text(
+                              _getUsableHost((widget.subnet.split("/"))[0]).toString(),
                               style: TextStyle(fontWeight: FontWeight.bold))
                         ]),
                       ),
@@ -136,6 +187,23 @@ class _DetailResult extends State<DetailResult> {
       ))));
     }
     return subnets;
+  }
+
+  _getUsableHost(_subnetMask) {
+    return _getNumberOfHost(_subnetMask) - 2;
+  }
+
+  _getNumberOfHost(_subnetMask) {
+    int octet = 255;
+    List<String> arrSubnetMask = _subnetMask.split(".");
+    for (int i = 0; i < arrSubnetMask.length; i++) {
+      int _octet = int.parse(arrSubnetMask[i]);
+      if (_octet > 0 && _octet < 255) {
+        octet = _octet;
+      }
+    }
+    int totalHost = 256 - octet;
+    return totalHost;
   }
 
   _getListOfSubnets(_ipAddress, _subnetMask, _cidr) {
